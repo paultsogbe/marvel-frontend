@@ -1,104 +1,87 @@
-import "./index.css";
-import "./App.css";
+import "./App.scss";
+import "./assets/styles/media-queries.scss";
+import { useState } from "react";
 import Cookies from "js-cookie";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { useState } from "react";
-import Home from "./containers/Home";
+
+// CONTAINER IMPORT
 import Comics from "./containers/Comics";
-import Characters from "./containers/Characters";
+import Character from "./containers/Character";
+import UserFav from "./containers/UserFav";
+import Home from "./containers/Home";
+
+// COMPONENT IMPORT
 import Header from "./components/Header";
-import CharDetails from "./containers/CharacterDetails";
-import SignUp from "./containers/SignUp";
-import Login from "./containers/Login";
+import Footer from "./components/Footer";
+
+// FONTAWESOME
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faSearch, faKey } from "@fortawesome/free-solid-svg-icons";
-library.add(faSearch, faKey);
+import {
+  faStar,
+  faSearch,
+  faTimesCircle,
+  faInfoCircle,
+  faChevronCircleLeft,
+  faChevronCircleRight,
+  faBars,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
+library.add(
+  faSearch,
+  faTimesCircle,
+  faStar,
+  faInfoCircle,
+  faChevronCircleLeft,
+  faChevronCircleRight,
+  faBars,
+  faTimes
+);
 
 function App() {
   const [userToken, setUserToken] = useState(Cookies.get("userToken") || null);
-  const [searchBar, setSearchBar] = useState(false);
-  const [title, setTitle] = useState("");
-  const [skip, setSkip] = useState(0);
-  const [limit, setLimit] = useState(100);
-  const [page, setPage] = useState(1);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [displayModal, setDisplayModal] = useState(false);
 
-  const setUser = (token) => {
+  const [search, setSearch] = useState(""); // For search bar
+
+  const userCookie = (token, id, username) => {
     if (token) {
-      Cookies.set("userToken", token, { expires: 5 });
+      Cookies.set("userToken", token, { expires: 7 });
+      Cookies.set("userId", id, { expires: 7 });
+      Cookies.set("username", username, { expires: 7 });
       setUserToken(token);
     } else {
       Cookies.remove("userToken");
+      Cookies.remove("userId");
+      Cookies.remove("username");
       setUserToken(null);
     }
-  };
-
-  const setError = (e) => {
-    setErrorMessage(e);
-  };
-
-  const handleSearchBar = () => {
-    setSearchBar(true);
-  };
-  const handleSearch = (event) => {
-    const value = event.target.value;
-    setTitle(value);
   };
 
   return (
     <Router>
       <Header
-        handleSearch={handleSearch}
-        title={title}
-        token={userToken}
-        setUser={setUser}
+        userCookie={userCookie}
+        userToken={userToken}
+        search={search}
+        setSearch={setSearch}
+        displayModal={displayModal}
+        setDisplayModal={setDisplayModal}
       />
       <Switch>
-        <Route path="/signup">
-          <SignUp
-            setUser={setUser}
-            setError={setError}
-            errorMessage={errorMessage}
-          />
-        </Route>
-        <Route path="/login">
-          <Login
-            setUser={setUser}
-            setError={setError}
-            errorMessage={errorMessage}
-          />
-        </Route>
         <Route path="/comics/:characterId">
-          <CharDetails />
+          <Character />
         </Route>
         <Route path="/comics">
-          <Comics
-            handleSearchBar={handleSearchBar}
-            title={title}
-            skip={skip}
-            limit={limit}
-            setLimit={setLimit}
-            setSkip={setSkip}
-            page={page}
-            setPage={setPage}
-          />
+          <Comics search={search} setDisplayModal={setDisplayModal} />
         </Route>
-        <Route path="/characters">
-          <Characters
-            handleSearchBar={handleSearchBar}
-            name={title}
-            limit={limit}
-            skip={skip}
-            setLimit={setLimit}
-            setSkip={setSkip}
-            page={page}
-            setPage={setPage}
-          />
+        <Route path="/user/:userId">
+          <UserFav />
         </Route>
         <Route path="/">
-          <Home setTitle={setTitle} />
+          <Home search={search} setDisplayModal={setDisplayModal} />
         </Route>
       </Switch>
+      <Footer />
     </Router>
   );
 }

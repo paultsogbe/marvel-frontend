@@ -1,23 +1,55 @@
-import { Link } from "react-router-dom";
-import characters from "../assets/img/characters.jpeg";
-import comics from "../assets/img/comics.jpeg";
+import { useState, useEffect } from "react";
+import axios from "axios";
+// Component import
+import CharacterCard from "../components/CharacterCard";
+import PageNav from "../components/PageNav";
+import Loader from "../components/Loader";
+import Hero from "../components/Hero";
 
-const Home = ({ setTitle }) => {
+const Home = ({ search, setDisplayModal }) => {
+  const [data, setData] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [skip, setSkip] = useState(0); // For page nav
+  const [limit, setLimit] = useState(100); // For page nav
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.get(
+        `https://marvel-backend-paul.herokuapp.com/characters?limit=${limit}&skip=${skip}&name=${search}`
+      );
+      setData(response.data);
+      setIsLoading(false);
+    };
+    fetchData();
+  }, [limit, skip, search]);
+
   return (
-    <div className="container home">
-      <div>
-        <Link to="/comics" params={{ setTitle: "" }}>
-          <h1>Comic books</h1>
-          <img src={comics} alt="Voir les comics"></img>
-        </Link>
-      </div>
-      <div>
-        <Link to="/characters">
-          <h1>Personnages</h1>
-          <img src={characters} alt="Voir les personnages"></img>
-        </Link>
-      </div>
-    </div>
+    <>
+      <Hero />
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div className="container">
+          <h1>Browse through characters of the Marvel Universe</h1>
+          <main>
+            <section className="character-list">
+              <CharacterCard
+                results={data.results}
+                setDisplayModal={setDisplayModal}
+              />
+            </section>
+            <PageNav
+              count={data.count}
+              skip={skip}
+              setSkip={setSkip}
+              limit={limit}
+              setLimit={setLimit}
+            />
+          </main>
+        </div>
+      )}
+    </>
   );
 };
 

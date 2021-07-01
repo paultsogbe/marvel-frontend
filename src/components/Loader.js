@@ -1,12 +1,10 @@
-import React from "react";
-import loader from "../assets/img/loader.svg";
+import logo from "../assets/images/marvel-logo.png";
 
 const Loader = () => {
-  return (
-    <div className="loader">
-      <img src={loader} />
-    </div>
-  );
+   return (
+      <div className="loader-container">
+         <div className="loader" />
+      </div>
+   );
 };
-
 export default Loader;

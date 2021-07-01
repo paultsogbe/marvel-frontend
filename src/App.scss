@@ -1,0 +1,497 @@
+//// GLOBAL STYLES
+$black: #151515;
+$grey: #202020;
+$lightgrey: #999;
+$white: #eee;
+$brightred: #ee171f;
+$red: #dd171f;
+$darkred: #9f0013;
+$shadow: 4px 4px 0;
+$transition: all 400ms;
+
+.hide-on-smartphone {
+  display: inherit;
+}
+
+.display-on-smartphone {
+  display: none;
+}
+
+body {
+  background-color: $black;
+  color: $white;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  line-height: normal;
+  height: 100vh;
+}
+#root {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.container {
+  width: 1024px;
+  margin: 0 auto;
+  flex: 1 0 auto;
+}
+h1 {
+  font-size: 32px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.white-to-red-button {
+  height: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 15px;
+  box-shadow: $shadow $red;
+  background-color: $white;
+  border: 2px solid $white;
+  color: $grey;
+  font-family: "Roboto Condensed", sans-serif;
+  font-size: inherit;
+  font-weight: inherit;
+  cursor: pointer;
+  transition: background-color 300ms, border 300ms, color 300ms,
+    box-shadow 300ms;
+  &:hover {
+    background-color: $red;
+    border: 2px solid $red;
+    color: $white;
+    box-shadow: $shadow $white;
+  }
+}
+.white-button {
+  height: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 15px;
+  background-color: $white;
+  border: 2px solid $grey;
+  color: $grey;
+  font-family: "Roboto Condensed", sans-serif;
+  font-size: inherit;
+  font-weight: inherit;
+  box-shadow: $shadow $grey;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 300ms, border 300ms, color 300ms,
+    box-shadow 300ms;
+  &:hover {
+    border: 2px solid $red;
+    box-shadow: $shadow $red;
+  }
+}
+.red-button {
+  height: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 15px;
+  background-color: $red;
+  border: 2px solid $red;
+  color: $white;
+  font-family: "Roboto Condensed", sans-serif;
+  font-size: inherit;
+  font-weight: inherit;
+  box-shadow: $shadow $black;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 300ms, border 300ms, color 300ms,
+    box-shadow 300ms;
+  &:hover {
+    border: 2px solid $red;
+  }
+}
+
+//// LOADER
+.loader-container {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: $black;
+  z-index: 1000;
+  > img {
+    height: 60px;
+    opacity: 0.5;
+  }
+}
+.loader {
+  width: 40px;
+  height: 40px;
+  background-color: $lightgrey;
+  margin: 100px auto;
+  -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
+  animation: sk-rotateplane 1.2s infinite ease-in-out;
+}
+@-webkit-keyframes sk-rotateplane {
+  0% {
+    -webkit-transform: perspective(120px);
+  }
+  50% {
+    -webkit-transform: perspective(120px) rotateY(180deg);
+  }
+  100% {
+    -webkit-transform: perspective(120px) rotateY(180deg) rotateX(180deg);
+  }
+}
+@keyframes sk-rotateplane {
+  0% {
+    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+  }
+  50% {
+    transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+  }
+  100% {
+    transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+    -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+  }
+}
+
+//// HEADER
+header {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  font-family: "Roboto Condensed", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  text-transform: uppercase;
+  // Logo:
+  > a > img {
+    height: 40px;
+    margin: auto 50px auto 0;
+  }
+  // Search bar:
+  > div {
+    display: flex;
+    align-items: center;
+    background-color: $white;
+    color: $grey;
+    height: 36px;
+    border-bottom: 2px solid $white;
+    cursor: pointer;
+    &:hover {
+      border-bottom: 2px solid $red;
+    }
+    > label {
+      width: 36px;
+      font-size: 20px;
+      text-align: center;
+      cursor: pointer;
+      + input {
+        width: 0;
+        transition: width 700ms;
+        background: none;
+        border: none;
+        font-size: inherit;
+        font-family: inherit;
+      }
+      &:hover + input,
+      + input:focus {
+        width: 200px;
+        outline: none;
+      }
+    }
+  }
+  // Menu:
+  > nav {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    > a,
+    > span {
+      margin-left: 20px;
+      padding: 5px;
+      color: $white;
+      text-decoration: none;
+      border-bottom: 2px solid $black;
+      transition: border-bottom 300ms;
+      cursor: pointer;
+      &:hover {
+        border-bottom: 2px solid $red;
+      }
+    }
+    > div {
+      margin-left: 30px;
+    }
+  }
+}
+
+//// HERO
+.hero-banner {
+  opacity: 0.9;
+  max-height: 280px;
+  width: 100%;
+  object-fit: cover;
+  // margin-bottom: 40px;
+}
+
+//// MODAL
+.modal-container {
+  background-color: rgba($color: $black, $alpha: 0.7);
+  height: 100vh;
+  width: 100%;
+  z-index: 500;
+  position: fixed;
+  top: 0;
+  align-items: center;
+  .modal-frame {
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    height: auto;
+    margin: 0 auto;
+    padding: 40px;
+    box-sizing: border-box;
+    background-color: $white;
+    color: $grey;
+    > svg {
+      // X to close modal
+      font-size: 20px;
+      position: relative;
+      align-self: flex-end;
+      top: -20px;
+      right: -20px;
+      cursor: pointer;
+      &:hover {
+        color: $red;
+      }
+    }
+    > h2 {
+      font-size: 18px;
+      text-align: center;
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+    > div {
+      display: flex;
+      justify-content: space-around;
+      margin: 10px 0 30px 0;
+      font-weight: 400;
+    }
+    > form {
+      display: flex;
+      flex-direction: column;
+      > input {
+        margin-bottom: 20px;
+        padding: 10px;
+        background: none;
+        border: none;
+        border-bottom: 2px solid $grey;
+        font-family: inherit;
+        color: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        &:focus {
+          outline: none;
+          border-bottom: 2px solid $red;
+        }
+      }
+      > button {
+        margin: 20px 0 10px 0;
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: 700;
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+    > p {
+      margin-top: 10px;
+      font-size: 13px;
+      text-align: center;
+      color: $lightgrey;
+      &:hover {
+        color: $red;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+//// HOME
+.character-list {
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+// CARDS
+.card {
+  width: calc((100% / 4) - 30px);
+  height: 320px;
+  margin: 0px 15px 30px 15px;
+  transition: $transition;
+  text-decoration: none;
+  // Background image:
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  &:hover {
+    transition: $transition;
+    box-shadow: $shadow $red;
+    .card-icon {
+      opacity: 1;
+    }
+    h2 {
+      opacity: 1;
+    }
+  }
+
+  > div {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: rgba($color: $black, $alpha: 0.5);
+    transition: $transition;
+    &:hover {
+      background-color: rgba($color: $black, $alpha: 0.3);
+    }
+    > h2 {
+      font-size: 20px;
+      font-family: "Roboto Condensed", sans-serif;
+      font-weight: 400;
+      background-color: rgba($color: $black, $alpha: 0.7);
+      padding: 10px;
+      opacity: 0;
+      transition: $transition;
+    }
+    > div {
+      display: flex;
+      position: relative;
+      > :first-child {
+        position: absolute;
+        left: 0;
+      }
+      > :last-child {
+        position: absolute;
+        right: 0;
+      }
+      > * {
+        display: flex;
+        align-items: center;
+        margin: 10px;
+        color: $white;
+        text-decoration: none;
+        > span {
+          opacity: 0;
+          transition: $transition;
+          margin: 3px 5px 0 5px;
+          font-size: 18px;
+          font-family: "Roboto Condensed", sans-serif;
+          font-weight: 400;
+        }
+      }
+    }
+    .card-icon {
+      opacity: 0;
+      font-size: 26px;
+      transition: $transition;
+      cursor: pointer;
+      &:hover {
+        color: $red;
+        transition: $transition;
+        ~ span {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+// Page nav:
+.page-nav {
+  margin: 50px 0 20px 0;
+  display: flex;
+  justify-content: center;
+  font-family: "Roboto Condensed", sans-serif;
+  > * {
+    margin: 0 10px;
+    > span {
+      margin: 0 10px;
+      &:hover {
+        color: $red;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+//// CHARACTER PAGE
+.character-descr {
+  text-align: center;
+  color: $lightgrey;
+  font-size: 22px;
+  margin-bottom: 40px;
+}
+.character-comics {
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+//// USER PROFILE AND LIST
+.user-profile {
+  display: flex;
+  flex-direction: column;
+  > h1 {
+    text-align: center;
+  }
+  > h2 {
+    text-align: center;
+    color: $lightgrey;
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+  > nav {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0 50px 0;
+    font-weight: 400;
+    font-family: "Roboto Condensed", sans-serif;
+    font-size: 18px;
+    > div {
+      margin: 0 20px;
+    }
+  }
+  > main {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+//// FOOTER
+footer {
+  flex-shrink: 0;
+  margin-top: 30px;
+  padding: 30px 0;
+  background-color: $grey;
+  font-size: 12px;
+  text-align: center;
+  strong,
+  a {
+    font-weight: 500;
+    color: $white;
+    text-decoration: none;
+  }
+  a:hover {
+    color: $red;
+  }
+}

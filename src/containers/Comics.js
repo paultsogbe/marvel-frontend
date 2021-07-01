@@ -1,49 +1,56 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import Comic from "../components/Comic";
-import Limit from "../components/Limit";
-import Loader from "../components/Loader";
-import Pagination from "../components/Pagination";
+// import Cookies from "js-cookie";
 
-const Comics = ({ title, skip, limit, setLimit, setSkip, page, setPage }) => {
-  const [data, setData] = useState({});
-  const [isLoading, setLoader] = useState(true);
+import ComicCard from "../components/ComicCard";
+import Loader from "../components/Loader";
+import PageNav from "../components/PageNav";
+import Hero from "../components/Hero";
+
+const Comics = ({ search, setDisplayModal }) => {
+  const [data, setData] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [skip, setSkip] = useState(0); // For page nav
+  const [limit, setLimit] = useState(100); // For page nav
+
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `https://marvel-backend-paul.herokuapp.com/comics?title=${title}&limit=${limit}&skip=${skip}`
-        );
-        console.log(response.data);
-        setData(response.data);
-        setLoader(false);
-      } catch (e) {
-        console.log(e.message);
-      }
+      const response = await axios.get(
+        `https://marvel-backend-paul.herokuapp.com/comics?limit=${limit}&skip=${skip}&title=${search}`
+      );
+      setData(response.data);
+      setIsLoading(false);
     };
     fetchData();
-  }, [title, limit, skip]);
-  return isLoading ? (
-    <Loader />
-  ) : (
-    <div className="container">
-      <div className="limit">
-        <Pagination
-          limit={limit}
-          setSkip={setSkip}
-          count={data.count}
-          page={page}
-          setPage={setPage}
-        />
-        <Limit count={data.count} setLimit={setLimit} />
-      </div>
-      <div className="comics">
-        {data.results.map((comic) => {
-          return <Comic key={comic._id} comic={comic} />;
-        })}
-      </div>
-    </div>
+  }, [limit, skip, search]);
+
+  return (
+    <>
+      <Hero />
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div className="container">
+          <h1>Browse through Marvel's comics collection</h1>
+          <main>
+            <section className="character-list">
+              <ComicCard
+                comics={data.results}
+                setDisplayModal={setDisplayModal}
+              />
+            </section>
+          </main>
+          <PageNav
+            count={data.count}
+            skip={skip}
+            setSkip={setSkip}
+            limit={limit}
+            setLimit={setLimit}
+          />
+        </div>
+      )}
+    </>
   );
 };
 

@@ -1,0 +1,98 @@
+//// GLOBAL STYLES
+$black: #151515;
+$grey: #202020;
+$lightgrey: #999;
+$white: #eee;
+$brightred: #ee171f;
+$red: #dd171f;
+$darkred: #9f0013;
+$shadow: 4px 4px 0;
+$transition: all 300ms;
+
+// DESKTOP
+@media (max-width: 1280px) {
+   .container {
+      width: 96vw;
+   }
+}
+
+// TABLETS
+@media (max-width: 1024px) {
+   .container {
+      width: 94vw;
+   }
+}
+
+// TABLETS
+@media (max-width: 1024px) {
+   .container {
+      width: 94vw;
+   }
+   .card {
+      width: calc((100% / 3) - 30px);
+      height: 320px;
+   }
+}
+
+// SMARTPHONES
+@media (max-width: 768px) {
+   .container {
+      width: 92vw;
+   }
+   h1 {
+      font-size: 26px;
+   }
+   header > svg {
+      margin-left: auto;
+      cursor: pointer;
+   }
+   .character-list {
+      flex-wrap: nowrap;
+      overflow-x: scroll;
+   }
+   .card {
+      width: calc((100% / 2) - 30px);
+      margin: 0px 10px 0px 10px;
+   }
+   .hide-on-smartphone {
+      display: none;
+   }
+   .display-on-smartphone {
+      display: flex;
+   }
+   .smartphone-nav {
+      position: absolute;
+      flex-direction: column;
+      align-items: flex-end;
+      top: 0;
+      right: 0;
+      padding-top: 25px;
+      padding-right: 18px;
+      z-index: 500;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba($color: $black, $alpha: 0.9);
+      > * {
+         margin-bottom: 10px;
+      }
+   }
+   footer {
+      margin-top: 10px;
+   }
+   .page-nav {
+      font-size: 14px;
+      margin-bottom: 0;
+   }
+   .user-profile {
+      > h1,
+      h2 {
+         margin: 10px 0 10px 0;
+      }
+      > nav {
+         flex-direction: column;
+         > :last-child {
+            margin-top: 15px;
+         }
+      }
+   }
+}

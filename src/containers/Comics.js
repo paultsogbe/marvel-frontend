@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 // import Cookies from "js-cookie";
@@ -16,14 +17,22 @@ const Comics = ({ search, setDisplayModal }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(
-        `https://marvel-backend-paul.herokuapp.com/comics?limit=${limit}&skip=${skip}&title=${search}`
-      );
-      setData(response.data);
-      setIsLoading(false);
+      try {
+        const response = await axios.get(
+          //axios.get(`https://marvel-backend-paul.herokuapp.com/comics?limit=${limit}&skip=${skip}&title=${search}`);
+
+          `/comics?limit=${limit}&skip=${skip}&title=${search}`
+        );
+        setData(response.data);
+      } catch (error) {
+        console.error("Erreur lors du fetch :", error);
+      } finally {
+        setIsLoading(false);
+      }
     };
     fetchData();
   }, [limit, skip, search]);
+  
 
   return (
     <>
@@ -36,7 +45,7 @@ const Comics = ({ search, setDisplayModal }) => {
           <main>
             <section className="character-list">
               <ComicCard
-                comics={data.results}
+                comics={data?.results || []}
                 setDisplayModal={setDisplayModal}
               />
             </section>

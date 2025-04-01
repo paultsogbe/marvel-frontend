@@ -1,3 +1,5 @@
+import React from "react";
+
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -13,7 +15,9 @@ const Character = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        `https://marvel-backend-paul.herokuapp.com/comics/${characterId}`
+        //`https://marvel-backend-paul.herokuapp.com/comics/${characterId}`
+        await axios.get(`/comics/${characterId}`)
+
       );
       setData(response.data);
       setIsLoading(false);

@@ -1,3 +1,4 @@
+import React from "react";
 import "./App.scss";
 import "./assets/styles/media-queries.scss";
 import { useState } from "react";

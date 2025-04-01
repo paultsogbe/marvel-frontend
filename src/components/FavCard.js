@@ -1,3 +1,4 @@
+import React from 'react'; // Add this line
 // import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Cookies from "js-cookie";

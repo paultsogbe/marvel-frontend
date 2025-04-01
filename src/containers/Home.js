@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 // Component import
@@ -16,7 +17,8 @@ const Home = ({ search, setDisplayModal }) => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        `https://marvel-backend-paul.herokuapp.com/characters?limit=${limit}&skip=${skip}&name=${search}`
+       // `https://marvel-backend-paul.herokuapp.com/characters?limit=${limit}&skip=${skip}&name=${search}`
+       `/characters?limit=100&skip=0&name=${search}`
       );
       setData(response.data);
       setIsLoading(false);

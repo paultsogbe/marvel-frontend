@@ -1,5 +1,4 @@
-import logo from "../assets/images/marvel-logo.png";
-
+import React from "react";
 const Loader = () => {
    return (
       <div className="loader-container">

@@ -14,13 +14,17 @@ const Character = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(
-        //`https://marvel-backend-paul.herokuapp.com/comics/${characterId}`
-        await axios.get(`/comics/${characterId}`)
-
-      );
-      setData(response.data);
-      setIsLoading(false);
+      try {
+        const response = await axios.get(
+          // `https://marvel-backend-paul.herokuapp.com/comics/${characterId}`
+          `/comics/${characterId}`
+        );
+        setData(response.data);
+      } catch (error) {
+        console.error("Erreur lors du fetch :", error);
+      } finally {
+        setIsLoading(false);
+      }
     };
     fetchData();
   }, [characterId]);
